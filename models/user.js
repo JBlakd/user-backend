@@ -20,17 +20,24 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
+    // logger.info('toJSON returnedObject', returnedObject)
     // convert MongoDB date format to date-only String
     // logger.info('dob: ', returnedObject.dob.toISOString().substring(0, 10))
-    returnedObject.dob = returnedObject.dob.toISOString().substring(0, 10)
+    if (returnedObject.hasOwnProperty("dob")) {
+      returnedObject.dob = returnedObject.dob.toISOString().substring(0, 10)
+    }
 
     // convert MongoDB id to String
     returnedObject.id = returnedObject._id.toString()
 
     // delete sensitive fields
     delete returnedObject._id
-    delete returnedObject.__v
-    delete returnedObject.passwordHash
+    if (returnedObject.hasOwnProperty("__v")) {
+      delete returnedObject.__v
+    }
+    if (returnedObject.hasOwnProperty("passwordHash")) {
+      delete returnedObject.passwordHash
+    }
   }
 })
 

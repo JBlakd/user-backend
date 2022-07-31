@@ -45,7 +45,7 @@ const checkParams = (userObj) => {
 // GET
 
 usersRouter.get('/', async (req, res) => {
-  const users = await User.find({})
+  const users = await User.find({}).populate('friends', 'name id date')
   res.json(users)
 })
 

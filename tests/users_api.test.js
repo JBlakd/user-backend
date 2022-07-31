@@ -190,6 +190,46 @@ describe('database with users', () => {
   })
 })
 
+describe('database with friendships', () => {
+  beforeEach(async () => {
+    // restore database to empty state
+    await User.deleteMany({})
+
+    // Add all initialUsers
+    const promiseArray = helper.initialUsers.map(u => api.post('/api/users').send(u))
+    await Promise.all(promiseArray)
+
+    // get reference to users
+    const users = await helper.usersInDb()
+    const ivanHu = users.find(u => u.name === 'IvanHu')
+    const rydeEngineer = users.find(u => u.name === 'RydeEngineer')
+    const familyOfIvan = users.find(u => u.name === 'FamilyOfIvan')
+    const friendOfIvan = users.find(u => u.name === 'FriendOfIvan')
+
+    // create friendships. IvanHu is bilaterally friends with {RydeEngineer, FamilyOfIvan, FriendOfIvan}
+    await api.put(`/api/users/addfriend/${ivanHu.id}`).send({ password: "IvanHuPassword", friendToAdd: rydeEngineer.id })
+    await api.put(`/api/users/addfriend/${rydeEngineer.id}`).send({ password: "RydeEngineerPassword", friendToAdd: ivanHu.id })
+    await api.put(`/api/users/addfriend/${ivanHu.id}`).send({ password: "IvanHuPassword", friendToAdd: familyOfIvan.id })
+    await api.put(`/api/users/addfriend/${familyOfIvan.id}`).send({ password: "IvanFamilyPW", friendToAdd: ivanHu.id })
+    await api.put(`/api/users/addfriend/${ivanHu.id}`).send({ password: "IvanHuPassword", friendToAdd: friendOfIvan.id })
+    await api.put(`/api/users/addfriend/${friendOfIvan.id}`).send({ password: "IvanFriendPW", friendToAdd: ivanHu.id })
+  })
+
+  test.only('check friendships', async () => {
+    // get reference to users
+    const users = await helper.usersInDb()
+    const ivanHu = users.find(u => u.name === 'IvanHu')
+    const rydeEngineer = users.find(u => u.name === 'RydeEngineer')
+    const familyOfIvan = users.find(u => u.name === 'FamilyOfIvan')
+    const friendOfIvan = users.find(u => u.name === 'FriendOfIvan')
+
+    expect(ivanHu.friends).toHaveLength(3)
+    expect(rydeEngineer.friends).toHaveLength(1)
+    expect(familyOfIvan.friends).toHaveLength(1)
+    expect(friendOfIvan.friends).toHaveLength(1)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
