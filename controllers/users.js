@@ -4,7 +4,7 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 const logger = require('../utils/logger')
 const mongoose = require('mongoose')
-const { response } = require('../app')
+const geoLib = require('../utils/geographic')
 
 const mandatoryFields = ["name", "password", "dob", "address", "latStr", "longStr", "description"]
 // Password hashing number of rounds
@@ -45,7 +45,7 @@ const checkParams = (userObj) => {
 // GET
 
 usersRouter.get('/', async (req, res) => {
-  const users = await User.find({}).populate('friends', 'name id date')
+  const users = await User.find({}).populate('friends', 'name id')
   res.json(users)
 })
 
@@ -59,6 +59,27 @@ usersRouter.get('/:id', async (req, res) => {
   }
 
   res.json(user)
+})
+
+usersRouter.get('/nearbyfriends/:name', async (req, res) => {
+  const users = await User.find({ name: req.params.name }).populate('friends', 'name id lat long address')
+  // logger.info('GET name users: ', users)
+  const user = users[0]
+  // logger.info('GET name user: ', user)
+
+  if (user === null) {
+    res.status(404).json({ error: "user not found" })
+    return
+  }
+
+  logger.info('user.friends: ', user.friends)
+
+  // returns friends within a 50000 meter radius
+  const nearbyFriends = user.friends
+    .filter(f => geoLib.distanceBetweenCoordinates(user.lat, user.long, f.lat, f.long) < 50000)
+
+  // res.json(user)
+  res.json(nearbyFriends)
 })
 
 // POST

@@ -241,6 +241,27 @@ describe('database with friendships', () => {
     expect(familyOfIvan.friends).toHaveLength(1)
     expect(friendOfIvan.friends).toHaveLength(1)
   })
+
+  test('nearby friends', async () => {
+    // get reference to users
+    const users = await helper.usersInDb()
+    const ivanHu = users.find(u => u.name === 'IvanHu')
+    const rydeEngineer = users.find(u => u.name === 'RydeEngineer')
+    const familyOfIvan = users.find(u => u.name === 'FamilyOfIvan')
+    const friendOfIvan = users.find(u => u.name === 'FriendOfIvan')
+
+    // IvanHu and RydeEngineer are both in Singapore and are friends with one another
+    const ivanHuNearbyFriends = await api.get(`/api/users/nearbyfriends/${ivanHu.name}`)
+    expect(ivanHuNearbyFriends.body).toHaveLength(1)
+    const rydeEngineerNearbyFriends = await api.get(`/api/users/nearbyfriends/${rydeEngineer.name}`)
+    expect(rydeEngineerNearbyFriends.body).toHaveLength(1)
+    const familyOfIvanNearbyFriends = await api.get(`/api/users/nearbyfriends/${familyOfIvan.name}`)
+
+    // Even though FamilyOfIvan and FriendOfIvan are both in Sydney, they are not friends with one another
+    expect(familyOfIvanNearbyFriends.body).toHaveLength(0)
+    const friendOfIvanNearbyFriends = await api.get(`/api/users/nearbyfriends/${friendOfIvan.name}`)
+    expect(friendOfIvanNearbyFriends.body).toHaveLength(0)
+  })
 })
 
 afterAll(() => {
