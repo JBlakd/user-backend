@@ -39,10 +39,26 @@ const checkParams = (userObj) => {
   return errorsObj
 }
 
+// GET
+
 usersRouter.get('/', async (req, res) => {
   const users = await User.find({})
   res.json(users)
 })
+
+usersRouter.get('/:id', async (req, res) => {
+  // logger.info('GET id: ', req.params.id)
+  const user = await User.findById(req.params.id)
+  // logger.info('GET id user: ', user)
+  if (user === null) {
+    res.status(404).json({ error: "user not found" })
+    return
+  }
+
+  res.json(user)
+})
+
+// POST
 
 usersRouter.post('/', async (req, res) => {
   const missingFields = mandatoryFields.filter(field => !Object.keys(req.body).includes(field))

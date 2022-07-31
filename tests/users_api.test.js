@@ -82,6 +82,25 @@ describe('database with users', () => {
     expect(response.body).toHaveLength(helper.initialUsers.length)
     // logger.info(response.body)
   })
+
+  test('getting specific user', async () => {
+    const users = await helper.usersInDb()
+    const specificId = users[2].id
+
+    const response = await api
+      .get(`/api/users/${specificId}`)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    expect(response.body.name).toEqual(users[2].name)
+  })
+
+  test('getting specific nonexistent user unsuccessful', async () => {
+    const response = await api
+      .get(`/api/users/ffffffffffffffffffffffff`)
+      .expect(404)
+      .expect('Content-Type', /application\/json/)
+  })
 })
 
 afterAll(() => {
