@@ -113,10 +113,9 @@ usersRouter.delete('/:id', async (req, res) => {
     return
   }
 
-  logger.info('DELETE user req.body: ', req.body)
+  // logger.info('DELETE user req.body: ', req.body)
   const isPasswordLegit = await bcrypt.compare(req.body.password, user.passwordHash)
   logger.info('isPasswordLegit: ', isPasswordLegit)
-
   if (!isPasswordLegit) {
     res.status(401).json({ error: "invalid password" })
     return
@@ -126,6 +125,40 @@ usersRouter.delete('/:id', async (req, res) => {
   res.status(204).end()
 })
 
+// PUT 
+usersRouter.put('/:id', async (req, res) => {
+  // check field validity
+  const invalidFields = Object.keys(req.body).filter(field =>
+    !mandatoryFields.includes(field)
+  )
+  if (invalidFields.length > 0) {
+    res.status(400).json({ error: `the following fields are invalid: ${invalidFields.toString()}` })
+    return
+  }
+
+  const errorsObj = checkParams(req.body)
+  if (errorsObj.errors.length > 0) {
+    res.status(400).json(errorsObj)
+    return
+  }
+
+  const user = await User.findById(req.params.id)
+  logger.info('PUT user: ', user)
+  if (user === null) {
+    res.status(404).end()
+    return
+  }
+  const isPasswordLegit = await bcrypt.compare(req.body.password, user.passwordHash)
+  logger.info('isPasswordLegit: ', isPasswordLegit)
+  if (!isPasswordLegit) {
+    res.status(401).json({ error: "invalid password" })
+    return
+  }
+
+  // the final parameter ensures the updated object is returned
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  res.status(200).json(updatedUser)
+})
 
 const mongoUrl = config.MONGODB_URI
 logger.info("connecting to mongoDB")

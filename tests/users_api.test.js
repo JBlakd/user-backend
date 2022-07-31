@@ -148,6 +148,46 @@ describe('database with users', () => {
     const afterDeletionUsers = await helper.usersInDb()
     expect(afterDeletionUsers).toHaveLength(users.length)
   })
+
+  test('successful change description', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+    const specificUser = users.find(u => u.name === 'RydeEngineer')
+    expect(specificUser.description).toEqual("Located in Singapore User 2")
+
+    await api
+      .put(`/api/users/${specificUser.id}`)
+      .send({ password: "RydeEngineerPassword", description: "Changed description." })
+      .expect(200)
+
+    const res = await api.get(`/api/users/${specificUser.id}`)
+    logger.info('res.body: ', res.body)
+    expect(res.body.description).toEqual("Changed description.")
+  })
+
+  test('unsuccessful change for invalid attribute', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+    const specificUser = users.find(u => u.name === 'RydeEngineer')
+    expect(specificUser.description).toEqual("Located in Singapore User 2")
+
+    await api
+      .put(`/api/users/${specificUser.id}`)
+      .send({ password: "RydeEngineerPassword", relationshipStatus: "single AF" })
+      .expect(400)
+  })
+
+  test('unsuccessful change with invalid password', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+    const specificUser = users.find(u => u.name === 'RydeEngineer')
+    expect(specificUser.description).toEqual("Located in Singapore User 2")
+
+    await api
+      .put(`/api/users/${specificUser.id}`)
+      .send({ password: "Wrongpassword", description: "Changed description." })
+      .expect(401)
+  })
 })
 
 afterAll(() => {
