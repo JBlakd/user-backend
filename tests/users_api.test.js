@@ -6,6 +6,7 @@ const app = require('../app')
 const api = supertest(app)
 const User = require('../models/User')
 const logger = require('../utils/logger')
+const geoLib = require('../utils/geographic')
 
 describe('initial empty database', () => {
   beforeEach(async () => {
@@ -59,6 +60,18 @@ describe('initial empty database', () => {
 
     const usersInDb = await helper.usersInDb()
     expect(usersInDb).toHaveLength(0);
+  })
+
+  test('distance between two coordinates function', () => {
+    const singaporeSydneyDistanceMeters = geoLib.distanceBetweenCoordinates(
+      Number(helper.initialUsers[0].latStr),
+      Number(helper.initialUsers[0].longStr),
+      Number(helper.initialUsers[2].latStr),
+      Number(helper.initialUsers[2].longStr),
+    )
+
+    expect(singaporeSydneyDistanceMeters < 6283250)
+    expect(singaporeSydneyDistanceMeters > 6283240)
   })
 })
 
@@ -215,7 +228,7 @@ describe('database with friendships', () => {
     await api.put(`/api/users/addfriend/${friendOfIvan.id}`).send({ password: "IvanFriendPW", friendToAdd: ivanHu.id })
   })
 
-  test.only('check friendships', async () => {
+  test('check friendships', async () => {
     // get reference to users
     const users = await helper.usersInDb()
     const ivanHu = users.find(u => u.name === 'IvanHu')
