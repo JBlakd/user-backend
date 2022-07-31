@@ -7,6 +7,38 @@ const mongoose = require('mongoose')
 
 const mandatoryFields = ["name", "password", "dob", "address", "latStr", "longStr", "description"]
 
+const checkParams = (userObj) => {
+  const keys = Object.keys(userObj)
+  const vals = Object.values(userObj)
+
+  logger.info('userObj vals: ', vals)
+
+  let errorsObj = { errors: [] }
+
+  const invalidParams = vals.filter(v => v.length < 3);
+  if (invalidParams.length > 0) {
+    errorsObj.errors.push(`the following params are not at least 3 characters long: ${invalidParams.toString()}`)
+  }
+
+  if (keys.find(k => k === 'latStr') !== undefined) {
+    const lat = parseFloat(userObj.latStr)
+    if (lat < -90 || lat > 90) {
+      errorsObj.errors.push('lat must be between -90 and 90')
+    }
+  }
+
+  if (keys.find(k => k === 'longStr') !== undefined) {
+    const long = parseFloat(userObj.longStr)
+    if (long < -180 || long > 180) {
+      errorsObj.errors.push('long must be between -180 and 180')
+    }
+  }
+
+  logger.info('errorsObj: ', errorsObj)
+
+  return errorsObj
+}
+
 usersRouter.get('/', async (req, res) => {
   const users = await User.find({})
   res.json(users)
@@ -18,23 +50,15 @@ usersRouter.post('/', async (req, res) => {
     res.status(400).json({ error: `the following params are missing: ${missingFields.toString()}` })
   }
 
-  const { name, password, dob, address, latStr, longStr, description } = req.body
-  const invalidParams = Object.values(req.body).filter(p => p.length < 3);
-  if (invalidParams.length > 0) {
-    res.status(400).json({ error: `the following params are not at least 3 characters long: ${invalidParams.toString()}` })
+  const errorsObj = checkParams(req.body)
+  if (errorsObj.errors.length > 0) {
+    res.status(400).json(errorsObj)
     return
   }
 
+  const { name, password, dob, address, latStr, longStr, description } = req.body
   const lat = parseFloat(latStr)
-  if (lat < -90 || lat > 90) {
-    res.status(400).json({ error: 'lat must be between -90 and 90' }).end()
-    return
-  }
   const long = parseFloat(longStr)
-  if (long < -180 || long > 180) {
-    res.status(400).json({ error: 'long must be between -180 and 180' }).end()
-    return
-  }
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)

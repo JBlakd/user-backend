@@ -21,7 +21,7 @@ describe('initial empty database', () => {
     expect(response.body).toHaveLength(0)
   })
 
-  test('adding valid user successfully', async () => {
+  test('adding valid user successful', async () => {
     await api
       .post('/api/users')
       .send(helper.initialUsers[0])
