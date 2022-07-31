@@ -160,6 +160,40 @@ usersRouter.put('/:id', async (req, res) => {
   res.status(200).json(updatedUser)
 })
 
+usersRouter.put('/addfriend/:id', async (req, res) => {
+  // check field completeness
+  if (!req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('friendToAdd')) {
+    res.status(400).json({ error: 'must contain fields password and friendToAdd' })
+    return
+  }
+
+  const user = await User.findById(req.params.id)
+  if (user === null) {
+    res.status(404).end()
+    return
+  }
+
+  const isPasswordLegit = await bcrypt.compare(req.body.password, user.passwordHash)
+  logger.info('isPasswordLegit: ', isPasswordLegit)
+  if (!isPasswordLegit) {
+    res.status(401).json({ error: "invalid password" })
+    return
+  }
+
+  const friendToAdd = await User.findById(req.body.friendToAdd)
+  if (friendToAdd === null) {
+    res.status(400).json({ error: 'invalid friendToAdd' })
+    return
+  }
+
+  // The MongoDB _id must be used
+  user.friends = user.friends.concat(friendToAdd._id)
+  await user.save()
+
+  const updatedUser = await User.findById(req.params.id).populate('user', { id: 1, name: 1 })
+  res.status(200).json(updatedUser)
+})
+
 const mongoUrl = config.MONGODB_URI
 logger.info("connecting to mongoDB")
 mongoose.connect(mongoUrl)

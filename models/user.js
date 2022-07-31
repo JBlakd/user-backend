@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
   lat: Number,
   long: Number,
   description: String,
-  createdAt: Date
+  createdAt: Date,
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 })
 
 userSchema.set('toJSON', {
