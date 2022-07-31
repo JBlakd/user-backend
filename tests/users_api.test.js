@@ -68,8 +68,7 @@ describe('database with users', () => {
     await User.deleteMany({})
 
     // Add all initialUsers
-    const userObjects = helper.initialUsers.map(u => new User(u))
-    const promiseArray = userObjects.map(uObj => uObj.save())
+    const promiseArray = helper.initialUsers.map(u => api.post('/api/users').send(u))
     await Promise.all(promiseArray)
   })
 
@@ -84,6 +83,7 @@ describe('database with users', () => {
   })
 
   test('getting specific user', async () => {
+    // getting the ID of a specific user
     const users = await helper.usersInDb()
     const specificId = users[2].id
 
@@ -100,6 +100,53 @@ describe('database with users', () => {
       .get(`/api/users/ffffffffffffffffffffffff`)
       .expect(404)
       .expect('Content-Type', /application\/json/)
+  })
+
+  test('successful user deletion with valid password', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+    const specificUser = users.find(u => u.name === 'RydeEngineer')
+    logger.info(`specificUser.id ${specificUser.id}`)
+
+    await api
+      .delete(`/api/users/${specificUser.id}`)
+      .send({ password: "RydeEngineerPassword" })
+      .expect(204)
+
+    const afterDeletionUsers = await helper.usersInDb()
+    expect(afterDeletionUsers).toHaveLength(users.length - 1)
+    // Check that none of the users in afterDeletionUsers contain the deleted user's name
+    expect(!afterDeletionUsers.some(u => u.name === specificUser.name))
+  })
+
+  test('unsuccessful user deletion with invalid password', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+    const specificUser = users.find(u => u.name === 'RydeEngineer')
+    logger.info(`specificUser.id ${specificUser.id}`)
+
+    await api
+      .delete(`/api/users/${specificUser.id}`)
+      .send({ password: "DefinitelyWrongPassword" })
+      .expect(401)
+
+    const afterDeletionUsers = await helper.usersInDb()
+    expect(afterDeletionUsers).toHaveLength(users.length)
+    // Check that the user is not deleted
+    expect(!afterDeletionUsers.some(u => u.name == specificUser.name))
+  })
+
+  test('no effect on invalid id delete attempt', async () => {
+    const users = await helper.usersInDb()
+    expect(users).toHaveLength(4)
+
+    await api
+      .delete(`/api/users/ffffffffffffffffffffffff`)
+      .send({ password: "DefinitelyWrongPassword" })
+      .expect(204)
+
+    const afterDeletionUsers = await helper.usersInDb()
+    expect(afterDeletionUsers).toHaveLength(users.length)
   })
 })
 

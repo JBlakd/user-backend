@@ -4,8 +4,11 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 const logger = require('../utils/logger')
 const mongoose = require('mongoose')
+const { response } = require('../app')
 
 const mandatoryFields = ["name", "password", "dob", "address", "latStr", "longStr", "description"]
+// Password hashing number of rounds
+const saltRounds = 10
 
 const checkParams = (userObj) => {
   const keys = Object.keys(userObj)
@@ -76,7 +79,6 @@ usersRouter.post('/', async (req, res) => {
   const lat = parseFloat(latStr)
   const long = parseFloat(longStr)
 
-  const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const createdAt = new Date()
@@ -92,13 +94,38 @@ usersRouter.post('/', async (req, res) => {
     createdAt
   })
 
-  logger.info('user POST dob: ', dob)
-  logger.info('user POST userBeforeSave: ', user)
+  // logger.info('user POST dob: ', dob)
+  // logger.info('user POST userBeforeSave: ', user)
 
   const savedUser = await user.save()
 
+  logger.info('savedUser: ', savedUser)
+
   res.status(201).json(savedUser)
 })
+
+// DELETE
+usersRouter.delete('/:id', async (req, res) => {
+  const user = await User.findById(req.params.id)
+  logger.info('DELETE user: ', user)
+  if (user === null) {
+    res.status(204).end()
+    return
+  }
+
+  logger.info('DELETE user req.body: ', req.body)
+  const isPasswordLegit = await bcrypt.compare(req.body.password, user.passwordHash)
+  logger.info('isPasswordLegit: ', isPasswordLegit)
+
+  if (!isPasswordLegit) {
+    res.status(401).json({ error: "invalid password" })
+    return
+  }
+
+  await User.findByIdAndRemove(req.params.id)
+  res.status(204).end()
+})
+
 
 const mongoUrl = config.MONGODB_URI
 logger.info("connecting to mongoDB")
