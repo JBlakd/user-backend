@@ -20,6 +20,46 @@ describe('initial empty database', () => {
 
     expect(response.body).toHaveLength(0)
   })
+
+  test('adding valid user successfully', async () => {
+    await api
+      .post('/api/users')
+      .send(helper.initialUsers[0])
+      .expect(201)
+
+    const usersInDb = await helper.usersInDb()
+    expect(usersInDb).toHaveLength(1);
+  })
+
+  test('adding noPasswordUser unsuccessful', async () => {
+    await api
+      .post('/api/users')
+      .send(helper.invalidUsers.noPasswordUser)
+      .expect(400)
+
+    const usersInDb = await helper.usersInDb()
+    expect(usersInDb).toHaveLength(0);
+  })
+
+  test('adding nameTooShortUser unsuccessful', async () => {
+    await api
+      .post('/api/users')
+      .send(helper.invalidUsers.nameTooShortUser)
+      .expect(400)
+
+    const usersInDb = await helper.usersInDb()
+    expect(usersInDb).toHaveLength(0);
+  })
+
+  test('adding invalidLatUser unsuccessful', async () => {
+    await api
+      .post('/api/users')
+      .send(helper.invalidUsers.invalidLatUser)
+      .expect(400)
+
+    const usersInDb = await helper.usersInDb()
+    expect(usersInDb).toHaveLength(0);
+  })
 })
 
 describe('database with users', () => {
@@ -33,14 +73,14 @@ describe('database with users', () => {
     await Promise.all(promiseArray)
   })
 
-  test('all users successfully added', async () => {
+  test('getting all users properly', async () => {
     const response = await api
       .get('/api/users')
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
     expect(response.body).toHaveLength(helper.initialUsers.length)
-    logger.info(response.body)
+    // logger.info(response.body)
   })
 })
 

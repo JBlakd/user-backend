@@ -39,11 +39,40 @@ const initialUsers = [
   }
 ]
 
+const invalidUsers = {
+  "noPasswordUser": {
+    "name": "IvanHu",
+    "dob": "1997-09-17",
+    "address": "Singapore Farrer Park",
+    "latStr": "1.312908",
+    "longStr": "103.856903",
+    "description": "Located in Singapore User 1"
+  },
+  "invalidLatUser": {
+    "name": "IvanHu",
+    "password": "IvanHuPassword",
+    "dob": "1997-09-17",
+    "address": "Singapore Farrer Park",
+    "latStr": "91.0",
+    "longStr": "103.856903",
+    "description": "Located in Singapore User 1"
+  },
+  "nameTooShortUser": {
+    "name": "Iv",
+    "password": "IvanHuPassword",
+    "dob": "1997-09-17",
+    "address": "Singapore Farrer Park",
+    "latStr": "1.312908",
+    "longStr": "103.856903",
+    "description": "Located in Singapore User 1"
+  },
+}
+
 const usersInDb = async () => {
   const users = await User.find({})
   return users
 }
 
 module.exports = {
-  usersInDb, initialUsers
+  usersInDb, initialUsers, invalidUsers
 }
