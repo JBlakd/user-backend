@@ -2,19 +2,22 @@
  Ryde Back-end Developer Test
 
 ### Requirements Checklist
-* ✔️User Model
-* ✔️The API should follow typical RESTful API design pattern
-* ✔️The data should be saved in the DB
-* ✔️Provide proper unit test
-* ✔️Provide proper API documentation
-* ✔️NoSQL DB is preferred
-* ✔️Write clear documentation on how it’s designed and how to run the code
-* ✔️Write good in-code comments
-* ✔️Write good commit messages
-* ✔️Provide a complete user auth strategy
-* ✔️Provide a complete logging (when/how/etc.) strategy
-* ✔️Implement a user schema that takes into account "friends" relationships
-* ✔️Implement a user schema that contains the geographical coordinates of the user, and implement an API endpoint that returns the nearby friends of a specific user
+* ✔️ User Model
+* ✔️ The API should follow typical RESTful API design pattern
+* ✔️ The data should be saved in the DB
+* ✔️ Provide proper unit test
+* ✔️ Provide proper API documentation
+* ✔️ NoSQL DB is preferred
+* ✔️ Write clear documentation on how it’s designed and how to run the code
+* ✔️ Write good in-code comments
+* ✔️ Write good commit messages
+* ✔️ Provide a complete user auth strategy
+* ✔️ Provide a complete logging (when/how/etc.) strategy
+* ✔️ Implement a user schema that takes into account "friends" relationships
+* ✔️ Implement a user schema that contains the geographical coordinates of the user, and implement an API endpoint that returns the nearby friends of a specific user
+* ✔️ Good use of API design best practices
+* ✔️ Good testing approach
+* ✔️ Modularised, reusable and extensible code
 
 # Usage
 1. Install [Node.js](https://nodejs.org/en/download/) if not already installed
