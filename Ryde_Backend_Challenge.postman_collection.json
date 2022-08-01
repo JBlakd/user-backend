@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "6ae532b9-e755-4193-b493-adb9b18e304d",
+		"name": "Ryde Backend Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15236453"
+	},
+	"item": [
+		{
+			"name": "POST user IvanHu",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"IvanHu\",\r\n    \"password\": \"IvanHuPassword\",\r\n    \"dob\": \"1997-09-17\",\r\n    \"address\": \"Singapore\",\r\n    \"latStr\": \"1.312908\",\r\n    \"longStr\": \"103.856903\",\r\n    \"description\": \"Full-stack developer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user RydeEngineer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"RydeEngineer\",\r\n    \"password\": \"RydeEngineerPassword\",\r\n    \"dob\": \"1992-01-24\",\r\n    \"address\": \"Singapore Anson Road\",\r\n    \"latStr\": \"1.275926\",\r\n    \"longStr\": \"103.846099\",\r\n    \"description\": \"Located in Singapore User 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user FamilyOfIvan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"FamilyOfIvan\",\r\n    \"password\": \"IvanFamilyPW\",\r\n    \"dob\": \"1971-04-21\",\r\n    \"address\": \"Sydney, Hornsby\",\r\n    \"latStr\": \"-33.699612\",\r\n    \"longStr\": \"151.109878\",\r\n    \"description\": \"Located in Sydney User 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user FriendOfIvan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"FriendOfIvan\",\r\n    \"password\": \"IvanFriendPW\",\r\n    \"dob\": \"1998-06-23\",\r\n    \"address\": \"Sydney, Waterloo\",\r\n    \"latStr\": \"-33.899095\",\r\n    \"longStr\": \"151.207294\",\r\n    \"description\": \"Located in Sydney User 2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user nameTooShortUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Iv\",\r\n    \"password\": \"IvanHuPassword\",\r\n    \"dob\": \"1997-09-17\",\r\n    \"address\": \"Singapore\",\r\n    \"latStr\": \"1.312908\",\r\n    \"longStr\": \"103.856903\",\r\n    \"description\": \"Full-stack developer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user invalidLatUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"IvanHu\",\r\n    \"password\": \"IvanHuPassword\",\r\n    \"dob\": \"1997-09-17\",\r\n    \"address\": \"Singapore Farrer Park\",\r\n    \"latStr\": \"91.0\",\r\n    \"longStr\": \"103.856903\",\r\n    \"description\": \"Located in Singapore User 1\"\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST user noPasswordUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"IvanHu\",\r\n    \"dob\": \"1997-09-17\",\r\n    \"address\": \"Singapore\",\r\n    \"latStr\": \"1.312908\",\r\n    \"longStr\": \"103.856903\",\r\n    \"description\": \"Full-stack developer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE user IvanHu",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"IvanHuPassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/62e690896aeac86d4cfbca26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"62e690896aeac86d4cfbca26"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user IvanHu",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"IvanHuPassword\",\r\n    \"address\": \"Singapore Farrer Park\",\r\n    \"description\": \"test description\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/62e69c6b1dfa255574c898dd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"62e69c6b1dfa255574c898dd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user IvanHu addfriend",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"IvanHuPassword\",\r\n    \"friendToAdd\": \"62e72f730cb0af51c8e1e80b\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/addfriend/62e69c6b1dfa255574c898dd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"addfriend",
+						"62e69c6b1dfa255574c898dd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user RydeEngineer addfriend",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"RydeEngineerPassword\",\r\n    \"friendToAdd\": \"62e69c6b1dfa255574c898dd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/addfriend/62e6a9995f0ca66fe466a2df",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"addfriend",
+						"62e6a9995f0ca66fe466a2df"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user FamilyOfIvan addfriend",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"IvanFamilyPW\",\r\n    \"friendToAdd\": \"62e69c6b1dfa255574c898dd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/addfriend/62e72f710cb0af51c8e1e809",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"addfriend",
+						"62e72f710cb0af51c8e1e809"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT user FriendOfIvan addfriend",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"IvanFriendPW\",\r\n    \"friendToAdd\": \"62e69c6b1dfa255574c898dd\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3003/api/users/addfriend/62e72f730cb0af51c8e1e80b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"addfriend",
+						"62e72f730cb0af51c8e1e80b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET nearbyfriends IvanHu",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3003/api/users/nearbyfriends/IvanHu",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3003",
+					"path": [
+						"api",
+						"users",
+						"nearbyfriends",
+						"IvanHu"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
