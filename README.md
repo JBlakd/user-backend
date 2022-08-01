@@ -69,3 +69,34 @@ The subdirectory `/tests` contains the files pertaining to unit testing. `test_h
 ```
 * Error Response
   * `None`
+
+### GET specific user
+* URL
+  * `http://localhost:3003/api/users/:id`
+* URL Params
+  * `:id` ID of a user in the string representation of a MongoDB ObjectID
+* Request Body
+  * `None`
+* Success Response
+  * Code: `200`
+  * Sample Body (JSON format):
+```
+  {
+    "friends": [
+      {
+        "name": "IvanHu",
+        "id": "62e69c6b1dfa255574c898dd"
+      }
+    ],
+    "name": "RydeEngineer",
+    "dob": "1992-01-24",
+    "address": "Singapore Anson Road",
+    "lat": 1.275926,
+    "long": 103.846099,
+    "description": "Located in Singapore User 2",
+    "createdAt": "2022-07-31T16:11:05.193Z",
+    "id": "62e6a9995f0ca66fe466a2df"
+  }
+```
+* Error Response
+  * Code `404` JSON body `{ "error": "user not found" } `
