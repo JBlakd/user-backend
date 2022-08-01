@@ -7,5 +7,6 @@
 3. Change directory to the newly cloned project root directory and install Node package dependencies: `npm install`
 4. Copy the `.env` file into the project root directory (not committed to GitHub, provided separately)
 5. Start the server: `npm run start`
+6. The server is up and running! Sample api endpoint: `http://localhost:3003/api/users`
 
 TODO: documentation, get production database to a demonstrable state, don't forget the .env file!!
