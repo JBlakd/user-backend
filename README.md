@@ -7,7 +7,9 @@
 3. Change directory to the newly cloned project root directory and install Node package dependencies: `npm install`
 4. Copy the `.env` file into the project root directory (not committed to GitHub, provided separately)
 5. Start the server: `npm run start`
-6. The server is up and running! Sample api endpoint: `http://localhost:3003/api/users`
+6. The server is up and running! Sample API endpoint: `http://localhost:3003/api/users`
+
+As an alternative to starting the server at step 5, use `npm run test` to execute testcases.
 
 ## Tech Stack
 * NoSQL database
@@ -28,6 +30,6 @@ The next program-wide layer is `/app.js`. This layer is responsible for importin
 
 The subdirectory `/controllers` contains the various Routers that the server is required to service. In the case of this project, only `/controllers/users.js` is needed. This Router is responsible for getting, creating, deleting and modifying the users in the database.
 
-The subdirectory `/controllers` contains the various MongoDB Schemas that the server will use. 
+The subdirectory `/models` contains the various MongoDB Schemas that the server will use. 
 
-TODO: documentation, get production database to a demonstrable state, don't forget the .env file!!
+The subdirectory `/tests` contains the files pertaining to unit testing. `test_helper.js` contains some reusable definitions and functions that are used across all testcases, and `users_api.test.js` contains the testcases. 
