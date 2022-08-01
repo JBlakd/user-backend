@@ -144,9 +144,6 @@ The subdirectory `/tests` contains the files pertaining to unit testing. `test_h
 * Error Response
   * Code `404` JSON body `{ "error": "user not found" } `
 
-* Error Response
-  * Code `404` JSON body `{ "error": "user not found" } `
-
 ## POST new user
 * URL
   * `http://localhost:3003/api/users`
